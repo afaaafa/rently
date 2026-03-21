@@ -1,0 +1,110 @@
+@startuml DiagramaDeClasses
+
+skinparam classAttributeIconSize 0
+
+abstract class Usuario {
+  - rg: String
+  - cpf: String
+  - nome: String
+  - endereco: String
+  - profissao: String
+  - email: String
+  - senha: String
+  + cadastrar(): void
+  + fazerLogin(): void
+}
+
+class Cliente {
+  + criarPedido(): void
+  + visualizarPedidos(): void
+  + editarPedido(): void
+  + cancelarPedido(): void
+}
+
+abstract class Agente {
+  + visualizarPedidos(): void
+  + avaliarPedido(): void
+  + editarPedido(): void
+  + selecionarTipoContrato(): void
+}
+
+class Empresa {
+  - razaoSocial: String
+  - cnpj: String
+}
+
+class Banco {
+  - codigoBanco: String
+  - nome: String
+  + associarContratoCredito(): void
+}
+
+class EntidadeEmpregadora {
+  - nome: String
+  - rendimento: Double
+}
+
+class Pedido {
+  - dataSolicitacao: Date
+  - status: StatusPedido
+  + analisar(): void
+  + registrarParecer(): void
+}
+
+enum StatusPedido {
+  PENDENTE
+  EM_ANALISE
+  APROVADO
+  RECUSADO
+  CANCELADO
+}
+
+class Automovel {
+  - matricula: String
+  - ano: Integer
+  - marca: String
+  - modelo: String
+  - placa: String
+}
+
+class ContratoAluguel {
+  - dataInicio: Date
+  - dataFim: Date
+  - valorTotal: Double
+  - tipoContrato: TipoContrato
+  + executar(): void
+  + registrarPropriedade(): void
+}
+
+enum TipoContrato {
+  CLIENTE
+  EMPRESA
+  BANCO
+}
+
+class ContratoCredito {
+  - valorCredito: Double
+  - taxaJuros: Double
+  - numeroParcelas: Integer
+}
+
+Usuario <|-- Cliente
+Usuario <|-- Agente
+Agente <|-- Empresa
+Agente <|-- Banco
+
+Cliente "1" *-- "1..3" EntidadeEmpregadora : possui
+
+Cliente "1" --> "0..*" Pedido : realiza
+Agente "1" --> "0..*" Pedido : avalia
+
+Pedido "1" --> "1" ContratoAluguel : gera
+Pedido --> StatusPedido
+
+ContratoAluguel "1" --> "1" Automovel : refere-se a
+ContratoAluguel --> TipoContrato
+ContratoAluguel "0..1" --> "0..1" ContratoCredito : associado a
+
+ContratoCredito "1" --> "1" Banco : concedido por
+
+@enduml

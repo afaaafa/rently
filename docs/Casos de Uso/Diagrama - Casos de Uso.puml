@@ -1,0 +1,52 @@
+@startuml CasosDeUso
+
+left to right direction
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+
+actor "Visitante" as visitante
+actor "Cliente" as cliente
+actor "Agente da Locadora" as agente
+actor "Banco" as banco
+
+cliente --> visitante : <<extend>>
+
+rectangle "Sistema de Aluguel de Carros" {
+
+  usecase "Realizar cadastro" as UC01
+  usecase "Fazer login" as UC02
+
+  usecase "Criar pedido de aluguel" as UC03
+  usecase "Visualizar status dos pedidos" as UC04
+  usecase "Editar pedido não analisado" as UC05
+  usecase "Cancelar pedido" as UC06
+
+  usecase "Visualizar pedidos dos clientes" as UC07
+  usecase "Avaliar pedido e registrar parecer" as UC08
+  usecase "Editar pedido durante análise" as UC09
+  usecase "Selecionar tipo de contrato" as UC12
+  usecase "Executar contrato e registrar propriedade" as UC10
+
+  usecase "Associar contrato de crédito" as UC11
+
+}
+
+visitante --> UC01
+visitante --> UC02
+
+cliente --> UC03
+cliente --> UC04
+cliente --> UC05
+cliente --> UC06
+
+agente --> UC07
+agente --> UC08
+agente --> UC09
+agente --> UC12
+
+banco --> UC11
+
+UC12 ..> UC10 : <<include>>
+UC11 ..> UC08 : <<extend>>
+
+@enduml

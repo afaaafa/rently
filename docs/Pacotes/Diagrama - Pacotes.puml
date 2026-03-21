@@ -1,0 +1,78 @@
+@startuml DiagramaDePacotes
+
+skinparam packageStyle rectangle
+
+package "app" {
+
+  package "app.controllers" {
+    [UsuariosController]
+    [ClientesController]
+    [AgentesController]
+    [PedidosController]
+    [AutomoveisController]
+    [ContratosAluguelController]
+    [CreditosController]
+  }
+
+  package "app.models" {
+    [Usuario]
+    [Cliente]
+    [Agente]
+    [Empresa]
+    [Banco]
+    [EntidadeEmpregadora]
+    [Pedido]
+    [Automovel]
+    [ContratoAluguel]
+    [ContratoCredito]
+  }
+
+  package "app.views" {
+    [usuarios]
+    [clientes]
+    [agentes]
+    [pedidos]
+    [automoveis]
+    [contratos_aluguel]
+    [creditos]
+    [layouts]
+  }
+
+  package "app.helpers" {
+    [UsuariosHelper]
+    [PedidosHelper]
+    [ContratosHelper]
+  }
+
+  package "app.mailers" {
+    [UsuarioMailer]
+    [PedidoMailer]
+  }
+
+}
+
+package "config" {
+  [routes]
+  [database]
+  [application]
+}
+
+package "db" {
+  [schema]
+  [migrations]
+  [seeds]
+}
+
+package "lib" {
+  [tasks]
+}
+
+"app.controllers" --> "app.models" : consulta/persiste
+"app.controllers" --> "app.views" : renderiza
+"app.controllers" --> "app.helpers" : utiliza
+"app.models" --> "db" : mapeado por
+"app.mailers" --> "app.views" : renderiza templates
+"config" --> "app.controllers" : roteia para
+"config" --> "db" : configura
+
+@enduml
