@@ -38,6 +38,12 @@
 
         <nav class="flex items-center gap-3">
           <% if authenticated? %>
+            <% if Current.user.is_a?(Agente) %>
+              <%= link_to "Dashboard", dashboard_path,
+                    class: "text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors" %>
+              <%= link_to "Frota", automoveis_path,
+                    class: "text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors" %>
+            <% end %>
             <span class="hidden sm:block text-sm text-gray-600">
               <%= Current.user.name || Current.user.email_address %>
             </span>

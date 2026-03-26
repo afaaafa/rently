@@ -1,0 +1,102 @@
+<% content_for :title, "Dashboard — Rently" %>
+
+<div class="w-full max-w-6xl mx-auto space-y-8">
+
+  <%# Header %>
+  <div>
+    <h1 class="text-2xl font-bold text-gray-900">
+      Olá, <%= Current.user.name&.split&.first || Current.user.email_address %> 👋
+    </h1>
+    <p class="text-sm text-gray-500 mt-1"><%= Current.user.class.name %> · <%= Date.today.strftime("%d de %B de %Y") %></p>
+  </div>
+
+  <%# Stats %>
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <%= render "stat_card",
+          label: "Aguardando análise",
+          value: @pending_count,
+          color: "yellow",
+          icon: "clock" %>
+
+    <%= render "stat_card",
+          label: "Em análise (seus)",
+          value: @reviewing_count,
+          color: "blue",
+          icon: "search" %>
+
+    <%= render "stat_card",
+          label: "Veículos na frota",
+          value: @vehicles_count,
+          color: "slate",
+          icon: "car" %>
+
+    <%= render "stat_card",
+          label: "Disponíveis",
+          value: @available_count,
+          color: "green",
+          icon: "check" %>
+  </div>
+
+  <%# Pedidos table + Quick actions %>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <%# Pending pedidos %>
+    <div class="lg:col-span-2 bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+      <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+        <h2 class="font-semibold text-gray-800">Pedidos pendentes</h2>
+        <span class="text-xs text-gray-400"><%= @recent_pedidos.count %> pedido(s)</span>
+      </div>
+
+      <% if @recent_pedidos.any? %>
+        <ul class="divide-y divide-gray-100">
+          <% @recent_pedidos.each do |pedido| %>
+            <li class="flex items-center justify-between px-5 py-3 hover:bg-gray-50 transition-colors">
+              <div>
+                <p class="text-sm font-medium text-gray-800"><%= pedido.client.name %></p>
+                <p class="text-xs text-gray-400">Solicitado em <%= pedido.request_date.strftime("%d/%m/%Y") %></p>
+              </div>
+              <%= render "status_badge", status: pedido.status %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <div class="px-5 py-10 text-center text-gray-400 text-sm">
+          Nenhum pedido pendente.
+        </div>
+      <% end %>
+    </div>
+
+    <%# Quick actions %>
+    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-3">
+      <h2 class="font-semibold text-gray-800 mb-4">Ações rápidas</h2>
+
+      <%= link_to automoveis_path,
+            class: "flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors group" do %>
+        <div class="w-9 h-9 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
+          <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 17a2 2 0 11-4 0 2 2 0 014 0zm10 0a2 2 0 11-4 0 2 2 0 014 0zM13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10l2 1h2"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-sm font-medium text-gray-800 group-hover:text-blue-600">Gerenciar frota</p>
+          <p class="text-xs text-gray-400"><%= @vehicles_count %> veículos cadastrados</p>
+        </div>
+      <% end %>
+
+      <%= link_to new_automovel_path,
+            class: "flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors group" do %>
+        <div class="w-9 h-9 rounded-lg bg-green-100 flex items-center justify-center shrink-0">
+          <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-sm font-medium text-gray-800 group-hover:text-green-600">Novo veículo</p>
+          <p class="text-xs text-gray-400">Cadastrar na frota</p>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+</div>
