@@ -1,0 +1,76 @@
+<%= form_with model: automovel, class: "space-y-6" do |f| %>
+  <% if automovel.errors.any? %>
+    <div class="bg-red-50 border border-red-200 rounded-xl p-4">
+      <p class="text-sm font-semibold text-red-700 mb-1">
+        <%= pluralize(automovel.errors.count, "erro") %> impediram o salvamento:
+      </p>
+      <ul class="list-disc list-inside text-sm text-red-600 space-y-0.5">
+        <% automovel.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div>
+      <%= f.label :brand, "Marca", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_field :brand, placeholder: "ex: Toyota",
+            class: "w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
+
+    <div>
+      <%= f.label :model, "Modelo", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_field :model, placeholder: "ex: Hilux",
+            class: "w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
+
+    <div>
+      <%= f.label :year, "Ano", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.number_field :year, placeholder: "ex: 2023", min: 1980, max: Date.today.year + 1,
+            class: "w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
+
+    <div>
+      <%= f.label :plate, "Placa", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_field :plate, placeholder: "ex: ABC-1234",
+            class: "w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
+
+    <div>
+      <%= f.label :matricula, "Matrícula", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_field :matricula, placeholder: "ex: MAT-001",
+            class: "w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
+  </div>
+
+  <%# Image upload %>
+  <div data-controller="image-preview">
+    <%= f.label :image, "Foto do veículo", class: "block text-sm font-medium text-gray-700 mb-1" %>
+
+    <% if automovel.image.attached? %>
+      <div class="mb-3">
+        <%= image_tag automovel.image, class: "h-40 w-full object-cover rounded-xl border border-gray-200" %>
+      </div>
+    <% end %>
+
+    <label class="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors"
+           data-image-preview-target="dropzone">
+      <div class="flex flex-col items-center gap-1 text-gray-400" data-image-preview-target="placeholder">
+        <%= icon "image", variant: "regular", class: "size-8" %>
+        <p class="text-sm">Clique para selecionar uma imagem</p>
+        <p class="text-xs">PNG, JPG, WEBP até 5MB</p>
+      </div>
+      <img data-image-preview-target="preview" class="hidden h-full w-full object-cover rounded-xl" />
+      <%= f.file_field :image, accept: "image/*", class: "hidden",
+            data: { action: "change->image-preview#show", image_preview_target: "input" } %>
+    </label>
+  </div>
+
+  <div class="flex items-center gap-4 pt-2">
+    <%= f.submit automovel.new_record? ? "Cadastrar veículo" : "Salvar alterações",
+          class: "rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-2.5 text-sm transition-colors cursor-pointer" %>
+    <%= link_to "Cancelar", automoveis_path,
+          class: "text-sm text-gray-500 hover:text-gray-700" %>
+  </div>
+<% end %>

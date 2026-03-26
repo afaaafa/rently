@@ -1,0 +1,64 @@
+<% content_for :title, "Frota — Rently" %>
+
+<div class="w-full max-w-6xl mx-auto">
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Frota de veículos</h1>
+      <p class="text-sm text-gray-500 mt-0.5"><%= pluralize(@automoveis.count, "veículo") %> cadastrado(s)</p>
+    </div>
+    <%= link_to "＋ Novo veículo", new_automovel_path,
+          class: "rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold px-5 py-2.5 text-sm transition-colors" %>
+  </div>
+
+  <% if @automoveis.any? %>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% @automoveis.each do |automovel| %>
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-col">
+          <%# Image %>
+          <% if automovel.image.attached? %>
+            <%= image_tag automovel.image, class: "h-44 w-full object-cover" %>
+          <% else %>
+            <div class="h-44 bg-linear-to-br from-slate-100 to-slate-200 flex items-center justify-center">
+              <%= icon "car", variant: "regular", class: "size-16 text-slate-300" %>
+            </div>
+          <% end %>
+
+          <div class="p-4 flex flex-col flex-1">
+            <div class="flex-1">
+              <p class="text-xs font-semibold uppercase tracking-wide text-blue-600"><%= automovel.brand %></p>
+              <h3 class="text-lg font-bold text-gray-900 mt-0.5"><%= automovel.model %> <span class="text-gray-400 font-normal text-base"><%= automovel.year %></span></h3>
+              <div class="mt-2 flex gap-3 text-xs text-gray-500">
+                <span>Placa: <strong class="text-gray-700"><%= automovel.plate %></strong></span>
+                <span>Mat.: <strong class="text-gray-700"><%= automovel.matricula %></strong></span>
+              </div>
+            </div>
+
+            <div class="mt-4 flex items-center gap-1 pt-3 border-t border-gray-100">
+              <%= link_to automovel_path(automovel),
+                    title: "Ver",
+                    class: "p-2 rounded-lg text-blue-600 hover:bg-blue-50 transition-colors" do %>
+                <%= icon "eye", variant: "regular", class: "size-5" %>
+              <% end %>
+              <%= link_to edit_automovel_path(automovel),
+                    title: "Editar",
+                    class: "p-2 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors" do %>
+                <%= icon "pencil-simple", variant: "regular", class: "size-5" %>
+              <% end %>
+              <%= button_to automovel_path(automovel), method: :delete,
+                    title: "Remover",
+                    form: { data: { turbo_confirm: "Tem certeza que deseja remover #{automovel.brand} #{automovel.model}?" } },
+                    class: "p-2 rounded-lg text-red-500 hover:bg-red-50 transition-colors cursor-pointer" do %>
+                <%= icon "trash", variant: "regular", class: "size-5" %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center py-24 text-gray-400 bg-white rounded-2xl border border-gray-200">
+      <p class="text-lg font-medium">Nenhum veículo cadastrado.</p>
+      <%= link_to "Cadastrar o primeiro", new_automovel_path, class: "mt-2 inline-block text-sm text-blue-600 hover:underline" %>
+    </div>
+  <% end %>
+</div>
