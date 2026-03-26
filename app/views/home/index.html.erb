@@ -1,0 +1,37 @@
+<% content_for :title, "Rently — Alugue seu carro" %>
+
+<%# Hero %>
+<section class="w-full text-center py-16 px-4">
+  <h1 class="text-5xl font-extrabold text-gray-900 tracking-tight">
+    Encontre o carro certo para você
+  </h1>
+  <p class="mt-4 text-lg text-gray-500 max-w-xl mx-auto">
+    Escolha entre nossa frota de veículos disponíveis e solicite seu aluguel em minutos.
+  </p>
+  <% unless authenticated? %>
+    <div class="mt-6 flex justify-center gap-4">
+      <%= link_to "Criar conta", new_session_path,
+            class: "rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-3 transition-colors" %>
+      <%= link_to "Entrar", new_session_path,
+            class: "rounded-xl border border-gray-300 hover:border-gray-400 text-gray-700 font-semibold px-6 py-3 transition-colors" %>
+    </div>
+  <% end %>
+</section>
+
+<%# Vehicle grid %>
+<section class="w-full pb-16">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6">Veículos disponíveis</h2>
+
+  <% if @automoveis.any? %>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <% @automoveis.each do |automovel| %>
+        <%= render "vehicle_card", automovel: automovel %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center py-24 text-gray-400">
+      <p class="text-xl font-medium">Nenhum veículo disponível no momento.</p>
+      <p class="mt-2 text-sm">Volte em breve!</p>
+    </div>
+  <% end %>
+</section>
