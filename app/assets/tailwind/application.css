@@ -255,6 +255,193 @@
     padding: 3.5rem 0;
   }
 
+  .rently-deck {
+    position: relative;
+    margin: -2.5rem calc((100vw - min(100vw - 2rem, 1180px)) / -2) -4rem;
+    background: var(--paper);
+    scroll-snap-type: y mandatory;
+  }
+
+  .rently-deck-nav {
+    position: fixed;
+    top: 5rem;
+    right: max(1rem, calc((100vw - 1180px) / 2));
+    z-index: 15;
+    display: flex;
+    gap: 0.35rem;
+    padding: 0.35rem;
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.86);
+    backdrop-filter: blur(14px);
+    box-shadow: 4px 4px 0 rgba(18, 20, 15, 0.9);
+  }
+
+  .rently-deck-nav a {
+    display: grid;
+    width: 2.35rem;
+    height: 2.35rem;
+    place-items: center;
+    border-radius: 6px;
+    color: var(--ink);
+    font-size: 0.76rem;
+    font-weight: 900;
+  }
+
+  .rently-deck-nav a:hover {
+    background: var(--signal);
+  }
+
+  .rently-deck-slide {
+    position: relative;
+    display: grid;
+    min-height: calc(100vh - 2.5rem);
+    align-items: center;
+    padding: clamp(5.5rem, 10vh, 8rem) max(1rem, calc((100vw - 1180px) / 2)) clamp(2rem, 7vh, 5rem);
+    border-bottom: 2px solid var(--ink);
+    background:
+      linear-gradient(90deg, rgba(18, 20, 15, 0.07) 1px, transparent 1px) 0 0 / 48px 48px,
+      linear-gradient(0deg, rgba(18, 20, 15, 0.045) 1px, transparent 1px) 0 0 / 48px 48px,
+      #f7faf3;
+    scroll-margin-top: 4rem;
+    scroll-snap-align: start;
+  }
+
+  .rently-deck-cover {
+    background:
+      repeating-linear-gradient(-45deg, rgba(18, 20, 15, 0.055) 0 14px, transparent 14px 28px),
+      #f7faf3;
+  }
+
+  .rently-deck-slide-light {
+    background:
+      linear-gradient(90deg, rgba(18, 20, 15, 0.07) 1px, transparent 1px) 0 0 / 48px 48px,
+      #e3f4ff;
+  }
+
+  .rently-deck-finale {
+    background:
+      linear-gradient(90deg, rgba(18, 20, 15, 0.08) 1px, transparent 1px) 0 0 / 42px 42px,
+      linear-gradient(0deg, rgba(18, 20, 15, 0.055) 1px, transparent 1px) 0 0 / 42px 42px,
+      #eef4ec;
+  }
+
+  .rently-slide-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.18fr) minmax(18rem, 0.82fr);
+    gap: clamp(1.5rem, 6vw, 5rem);
+    align-items: center;
+  }
+
+  .rently-slide-kicker {
+    position: absolute;
+    top: clamp(5.5rem, 9vh, 7rem);
+    left: max(1rem, calc((100vw - 1180px) / 2));
+    display: inline-flex;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    padding: 0.4rem 0.7rem;
+    background: var(--panel);
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .rently-slide-number {
+    color: var(--ember);
+    font-size: clamp(4.5rem, 12vw, 10rem);
+    font-weight: 900;
+    line-height: 0.8;
+  }
+
+  .rently-deck-title {
+    max-width: 12ch;
+    margin-top: 1rem;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 900;
+    line-height: 0.9;
+  }
+
+  .rently-deck-copy {
+    max-width: 39rem;
+    color: var(--muted);
+    font-size: clamp(1.18rem, 2vw, 1.7rem);
+    font-weight: 800;
+    line-height: 1.45;
+  }
+
+  .rently-layer-diagram {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .rently-layer-diagram span,
+  .rently-deck-tech span {
+    display: flex;
+    min-height: 4rem;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    padding: 0.8rem;
+    background: var(--panel);
+    font-weight: 900;
+    line-height: 1.25;
+    text-align: center;
+    box-shadow: 5px 5px 0 rgba(18, 20, 15, 0.9);
+  }
+
+  .rently-layer-diagram span {
+    min-height: 5rem;
+    font-size: 0.92rem;
+  }
+
+  .rently-layer-diagram span:nth-child(1) {
+    background: var(--signal);
+  }
+
+  .rently-layer-diagram span:nth-child(2) {
+    background: #fff7d6;
+  }
+
+  .rently-layer-diagram span:nth-child(3) {
+    background: #e3f4ff;
+  }
+
+  .rently-layer-diagram span:nth-child(4) {
+    background: #fff2f0;
+  }
+
+  .rently-deck-points {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .rently-deck-points li {
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    padding: 1rem;
+    background: var(--panel);
+    color: var(--muted);
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    font-weight: 850;
+    line-height: 1.45;
+    box-shadow: 4px 4px 0 rgba(18, 20, 15, 0.9);
+  }
+
+  .rently-deck-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-top: 1.5rem;
+  }
+
+  .rently-deck-tech span {
+    min-height: 3rem;
+    min-width: 6.5rem;
+    background: var(--signal);
+  }
+
   .rently-split {
     display: grid;
     grid-template-columns: minmax(0, 0.92fr) minmax(280px, 1.08fr);
@@ -645,6 +832,33 @@
     .rently-feature-grid,
     .rently-status-board {
       grid-template-columns: 1fr;
+    }
+
+    .rently-deck {
+      margin-top: -2rem;
+    }
+
+    .rently-deck-nav {
+      right: 1rem;
+      max-width: calc(100vw - 2rem);
+      overflow-x: auto;
+    }
+
+    .rently-deck-slide {
+      min-height: calc(100vh - 1rem);
+      padding-top: 7rem;
+    }
+
+    .rently-slide-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .rently-slide-kicker {
+      top: 5.1rem;
+    }
+
+    .rently-deck-title {
+      max-width: 10ch;
     }
 
     .rently-status-column + .rently-status-column {

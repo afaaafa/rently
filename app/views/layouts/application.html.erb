@@ -39,6 +39,7 @@
         <% end %>
 
         <nav class="rently-nav">
+          <%= link_to "Slides", slides_path, class: "rently-nav-link" %>
           <% if authenticated? %>
             <% if Current.user.is_a?(Agente) %>
               <%= link_to "Painel", dashboard_path, class: "rently-nav-link" %>

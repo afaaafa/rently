@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   end
   resources :creditos, controller: "creditos", only: %i[ index new create ]
   get "dashboard", to: "dashboard#index", as: :dashboard
+  get "slides", to: "home#slides", as: :slides
 
   root "home#index"
 end
