@@ -1,10 +1,11 @@
 <% content_for :title, "Editar #{@automovel.brand} #{@automovel.model} — Rently" %>
 
-<div class="w-full max-w-2xl mx-auto">
-  <%= link_to "← Voltar para a frota", automoveis_path, class: "text-sm text-gray-500 hover:text-gray-700" %>
+<div class="max-w-3xl mx-auto">
+  <%= link_to "Voltar para a frota", automoveis_path, class: "rently-button-ghost" %>
 
-  <div class="mt-6 bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
-    <h1 class="text-2xl font-bold text-gray-900 mb-6">Editar veículo</h1>
+  <div class="mt-6 rently-panel rently-panel-pad">
+    <span class="rently-eyebrow">Atualização de frota</span>
+    <h1 class="rently-section-title mt-3 mb-6">Editar veículo</h1>
     <%= render "form", automovel: @automovel %>
   </div>
 </div>

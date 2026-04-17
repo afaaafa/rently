@@ -1,0 +1,36 @@
+<% content_for :title, "Pedido — Rently" %>
+
+<div class="max-w-6xl mx-auto">
+  <%= link_to "Voltar para meus pedidos", pedidos_path, class: "rently-button-ghost" %>
+
+  <div class="mt-6 grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
+    <div class="lg:col-span-2 rently-panel rently-panel-pad">
+      <span class="rently-eyebrow">Seu pedido</span>
+      <h1 class="rently-section-title mt-3"><%= @pedido.automovel.brand %> <%= @pedido.automovel.model %></h1>
+      <div class="mt-4"><%= render "dashboard/status_badge", status: @pedido.status %></div>
+    </div>
+
+    <div class="lg:col-span-3 rently-panel rently-panel-pad">
+      <dl class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="rently-spec p-4">
+          <dt class="text-xs font-black text-gray-500 uppercase">Solicitado em</dt>
+          <dd class="text-sm font-black text-gray-900 mt-1"><%= @pedido.request_date.strftime("%d/%m/%Y") %></dd>
+        </div>
+        <div class="rently-spec p-4">
+          <dt class="text-xs font-black text-gray-500 uppercase">Diária</dt>
+          <dd class="rently-display text-3xl font-black mt-1"><%= number_to_currency(@pedido.automovel.daily_rate, unit: "R$ ", separator: ",", delimiter: ".") %></dd>
+        </div>
+        <% if @pedido.contrato_aluguel %>
+          <div class="rently-spec p-4">
+            <dt class="text-xs font-black text-gray-500 uppercase">Valor total</dt>
+            <dd class="rently-display text-3xl font-black mt-1"><%= number_to_currency(@pedido.contrato_aluguel.total_value, unit: "R$ ", separator: ",", delimiter: ".") %></dd>
+          </div>
+          <div class="rently-spec p-4">
+            <dt class="text-xs font-black text-gray-500 uppercase">Propriedade</dt>
+            <dd class="text-sm font-black text-gray-900 mt-1"><%= @pedido.contrato_aluguel.contract_type %></dd>
+          </div>
+        <% end %>
+      </dl>
+    </div>
+  </div>
+</div>

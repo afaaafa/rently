@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_26_230148) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_17_121000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -42,6 +42,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_230148) do
   create_table "automoveis", force: :cascade do |t|
     t.string "brand"
     t.datetime "created_at", null: false
+    t.decimal "daily_rate", precision: 10, scale: 2, default: "0.0", null: false
     t.string "matricula"
     t.string "model"
     t.string "plate"
@@ -86,12 +87,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_230148) do
 
   create_table "pedidos", force: :cascade do |t|
     t.integer "agent_id"
+    t.integer "automovel_id", null: false
     t.integer "client_id", null: false
     t.datetime "created_at", null: false
     t.date "request_date", null: false
     t.string "status", default: "pending", null: false
     t.datetime "updated_at", null: false
     t.index ["agent_id"], name: "index_pedidos_on_agent_id"
+    t.index ["automovel_id"], name: "index_pedidos_on_automovel_id"
     t.index ["client_id"], name: "index_pedidos_on_client_id"
   end
 
@@ -124,11 +127,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_230148) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "contratos_aluguel", "automoveis", column: "automovel_id"
+  add_foreign_key "contratos_aluguel", "automoveis"
   add_foreign_key "contratos_aluguel", "pedidos"
   add_foreign_key "contratos_credito", "contratos_aluguel", column: "contrato_aluguel_id"
   add_foreign_key "contratos_credito", "users", column: "banco_id"
   add_foreign_key "entidades_empregadoras", "users", column: "client_id"
+  add_foreign_key "pedidos", "automoveis"
   add_foreign_key "pedidos", "users", column: "agent_id"
   add_foreign_key "pedidos", "users", column: "client_id"
   add_foreign_key "sessions", "users"

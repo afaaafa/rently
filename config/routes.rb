@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   mount RailsIcons::Engine, at: '/rails_icons'
   resource :session
+  resource :registration, only: %i[ new create ]
   resources :passwords, param: :token
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -13,6 +14,14 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   resources :automoveis
+  resources :pedidos, only: %i[ index show new create ] do
+    member do
+      patch :start_review
+      patch :approve
+      patch :reject
+    end
+  end
+  resources :creditos, controller: "creditos", only: %i[ index new create ]
   get "dashboard", to: "dashboard#index", as: :dashboard
 
   root "home#index"

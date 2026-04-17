@@ -1,0 +1,30 @@
+<% content_for :title, "Meus pedidos — Rently" %>
+
+<div class="space-y-8">
+  <div>
+    <span class="rently-eyebrow">Área do cliente</span>
+    <h1 class="rently-section-title mt-3">Meus pedidos</h1>
+  </div>
+
+  <div class="rently-panel">
+    <% if @pedidos.any? %>
+      <ul class="divide-y divide-gray-200">
+        <% @pedidos.each do |pedido| %>
+          <li class="grid grid-cols-1 gap-3 px-5 py-4 sm:grid-cols-4 sm:items-center">
+            <div class="sm:col-span-2">
+              <p class="text-sm font-black text-gray-900"><%= pedido.automovel.brand %> <%= pedido.automovel.model %></p>
+              <p class="text-xs font-bold text-gray-500">Solicitado em <%= pedido.request_date.strftime("%d/%m/%Y") %></p>
+            </div>
+            <%= render "dashboard/status_badge", status: pedido.status %>
+            <%= link_to "Ver pedido", pedido_path(pedido), class: "rently-button-ghost sm:justify-self-end" %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <div class="px-5 py-16 text-center">
+        <p class="rently-display text-3xl font-black">Nenhum pedido ainda.</p>
+        <%= link_to "Escolher carro", root_path(anchor: "frota"), class: "rently-button mt-4" %>
+      </div>
+    <% end %>
+  </div>
+</div>

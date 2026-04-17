@@ -1,0 +1,48 @@
+<% content_for :title, "Solicitar aluguel — Rently" %>
+
+<div class="max-w-6xl mx-auto">
+  <%= link_to "Voltar para o veículo", automovel_path(@automovel), class: "rently-button-ghost" %>
+
+  <div class="mt-6 grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
+    <div class="lg:col-span-2 rently-panel rently-panel-pad">
+      <span class="rently-eyebrow">Carro escolhido</span>
+      <h1 class="rently-section-title mt-3"><%= @automovel.brand %> <%= @automovel.model %></h1>
+
+      <dl class="mt-6 space-y-3">
+        <div class="rently-spec p-4">
+          <dt class="text-xs font-black text-gray-500 uppercase">Placa</dt>
+          <dd class="text-sm font-black text-gray-900 mt-1"><%= @automovel.plate %></dd>
+        </div>
+        <div class="rently-spec p-4">
+          <dt class="text-xs font-black text-gray-500 uppercase">Diária</dt>
+          <dd class="rently-display text-3xl font-black mt-1"><%= number_to_currency(@automovel.daily_rate, unit: "R$ ", separator: ",", delimiter: ".") %></dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="lg:col-span-3 rently-panel rently-panel-pad">
+      <span class="rently-eyebrow">Pedido do cliente</span>
+      <h2 class="rently-display text-4xl font-black mt-3">Confirmar solicitação</h2>
+      <p class="text-sm font-bold text-gray-600 mt-2">
+        O agente da locadora vai analisar seu pedido e registrar o parecer. O carro escolhido permanece vinculado a esta solicitação.
+      </p>
+
+      <%= form_with model: @pedido, url: pedidos_path(automovel_id: @automovel.id), class: "mt-6" do |f| %>
+        <% if @pedido.errors.any? %>
+          <div class="bg-red-50 border-2 border-red-200 rounded-lg p-4 mb-6">
+            <p class="text-sm font-black text-red-700 mb-1">
+              <%= pluralize(@pedido.errors.count, "erro") %> impediram o pedido:
+            </p>
+            <ul class="list-disc list-inside text-sm font-bold text-red-600 space-y-0.5">
+              <% @pedido.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <%= f.submit "Criar pedido de aluguel", class: "rently-button cursor-pointer" %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,23 @@
 <% password_digest = BCrypt::Password.create("password") %>
 
 one:
+  type: Cliente
+  name: One Example
+  rg: 11.111.111-1
+  cpf: 111.111.111-11
+  profession: Designer
+  address:
+    line: Rua Um, 100
   email_address: one@example.com
   password_digest: <%= password_digest %>
 
 two:
+  type: Cliente
+  name: Two Example
+  rg: 22.222.222-2
+  cpf: 222.222.222-22
+  profession: Engineer
+  address:
+    line: Rua Dois, 200
   email_address: two@example.com
   password_digest: <%= password_digest %>

@@ -1,0 +1,96 @@
+<% content_for :title, "Crédito — Rently" %>
+
+<div class="space-y-8">
+  <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+    <div>
+      <span class="rently-eyebrow">Mesa do banco</span>
+      <h1 class="rently-section-title mt-3">Análise de crédito</h1>
+      <p class="text-sm font-bold text-gray-600 mt-2">
+        <%= pluralize(@pending_contracts.count, "contrato aguardando crédito", "contratos aguardando crédito") %>
+      </p>
+    </div>
+    <p class="rently-copy max-w-xl">
+      Pedidos aprovados com financiamento bancário ficam aqui até receberem valor, taxa e parcelas do contrato de crédito.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 rently-panel">
+      <div class="flex items-center justify-between gap-4 px-5 py-4 border-b-2 border-gray-900">
+        <h2 class="rently-display text-2xl font-black">Aguardando associação</h2>
+        <span class="rently-status-badge" style="background:#fff7d6;color:#8a5b00;"><%= @pending_contracts.count %> pendente(s)</span>
+      </div>
+
+      <% if @pending_contracts.any? %>
+        <ul class="divide-y divide-gray-200">
+          <% @pending_contracts.each do |contrato| %>
+            <li class="flex flex-col gap-4 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p class="text-sm font-black text-gray-900"><%= contrato.pedido.client.name %></p>
+                <p class="text-xs font-bold text-gray-500 mt-1">
+                  <%= contrato.automovel.brand %> <%= contrato.automovel.model %> ·
+                  Pedido aprovado em <%= contrato.pedido.request_date.strftime("%d/%m/%Y") %>
+                </p>
+                <p class="rently-display text-3xl font-black mt-2">
+                  <%= number_to_currency(contrato.total_value, unit: "R$ ", separator: ",", delimiter: ".") %>
+                </p>
+              </div>
+
+              <%= link_to "Associar crédito",
+                    new_credito_path(contrato_aluguel_id: contrato.id),
+                    class: "rently-button sm:w-auto w-full" %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <div class="px-5 py-16 text-center">
+          <p class="rently-display text-3xl font-black">Nenhum crédito pendente.</p>
+          <p class="text-sm font-bold text-gray-500 mt-2">Todos os contratos bancários aprovados já foram associados.</p>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="rently-panel">
+      <div class="rently-panel-pad">
+        <p class="text-xs font-black uppercase text-gray-500">Contratos do banco</p>
+        <p class="rently-display text-5xl font-black mt-2"><%= @creditos.count %></p>
+        <p class="text-sm font-bold text-gray-600 mt-3">Créditos já associados por <%= Current.user.name || Current.user.email_address %>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="rently-panel">
+    <div class="flex items-center justify-between gap-4 px-5 py-4 border-b-2 border-gray-900">
+      <h2 class="rently-display text-2xl font-black">Histórico de crédito</h2>
+      <span class="rently-status-badge" style="background:#eef4ec;color:#4e5d53;"><%= @creditos.count %> associado(s)</span>
+    </div>
+
+    <% if @creditos.any? %>
+      <ul class="divide-y divide-gray-200">
+        <% @creditos.each do |credito| %>
+          <% contrato = credito.contrato_aluguel %>
+          <li class="grid grid-cols-1 gap-3 px-5 py-4 lg:grid-cols-4 lg:items-center">
+            <div>
+              <p class="text-sm font-black text-gray-900"><%= contrato.pedido.client.name %></p>
+              <p class="text-xs font-bold text-gray-500"><%= contrato.automovel.brand %> <%= contrato.automovel.model %></p>
+            </div>
+            <p class="text-sm font-bold text-gray-700">
+              Crédito <strong class="text-gray-900"><%= number_to_currency(credito.credit_value, unit: "R$ ", separator: ",", delimiter: ".") %></strong>
+            </p>
+            <p class="text-sm font-bold text-gray-700">
+              Taxa <strong class="text-gray-900"><%= number_to_percentage(credito.interest_rate * 100, precision: 2, separator: ",") %></strong>
+            </p>
+            <p class="text-sm font-bold text-gray-700">
+              <strong class="text-gray-900"><%= credito.installments %></strong> parcelas
+            </p>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <div class="px-5 py-16 text-center">
+        <p class="rently-display text-3xl font-black">Nenhum contrato associado.</p>
+        <p class="text-sm font-bold text-gray-500 mt-2">A primeira análise aprovada aparecerá aqui.</p>
+      </div>
+    <% end %>
+  </div>
+</div>

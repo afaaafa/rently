@@ -1,37 +1,201 @@
 <% content_for :title, "Rently — Alugue seu carro" %>
 
 <%# Hero %>
-<section class="w-full text-center py-16 px-4">
-  <h1 class="text-5xl font-extrabold text-gray-900 tracking-tight">
-    Encontre o carro certo para você
-  </h1>
-  <p class="mt-4 text-lg text-gray-500 max-w-xl mx-auto">
-    Escolha entre nossa frota de veículos disponíveis e solicite seu aluguel em minutos.
-  </p>
-  <% unless authenticated? %>
-    <div class="mt-6 flex justify-center gap-4">
-      <%= link_to "Criar conta", new_session_path,
-            class: "rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-3 transition-colors" %>
-      <%= link_to "Entrar", new_session_path,
-            class: "rounded-xl border border-gray-300 hover:border-gray-400 text-gray-700 font-semibold px-6 py-3 transition-colors" %>
+<section class="rently-hero">
+  <div>
+    <span class="rently-eyebrow">Pedido, análise e contrato em um só fluxo</span>
+    <h1 class="rently-title">Aluguel sem ruído.</h1>
+    <p class="rently-copy mt-6">
+      Escolha um automóvel disponível, envie sua solicitação e acompanhe cada etapa até a decisão da locadora.
+    </p>
+    <% unless authenticated? %>
+      <div class="mt-6 flex flex-wrap gap-4">
+        <%= link_to "Criar conta", new_registration_path, class: "rently-button" %>
+        <%= link_to "Entrar", new_session_path, class: "rently-button-secondary" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="rently-ops-strip" aria-label="Fluxo principal">
+    <div>
+      <p class="text-xs font-black uppercase text-gray-500">01 Cliente</p>
+      <p class="rently-display mt-3 text-3xl font-black leading-none">Seleciona a frota.</p>
     </div>
-  <% end %>
+    <div>
+      <p class="text-xs font-black uppercase text-gray-500">02 Agente</p>
+      <p class="rently-display mt-3 text-3xl font-black leading-none">Avalia o pedido.</p>
+    </div>
+    <div>
+      <p class="text-xs font-black uppercase text-gray-500">03 Contrato</p>
+      <p class="rently-display mt-3 text-3xl font-black leading-none">Registra propriedade.</p>
+    </div>
+  </div>
+</section>
+
+<section class="rently-landing-section">
+  <div class="rently-split">
+    <div>
+      <span class="rently-eyebrow">Como a locação anda</span>
+      <h2 class="rently-section-title mt-3">Da vitrine ao contrato, sem perder o rastro.</h2>
+      <p class="rently-copy mt-5">
+        A Rently organiza o caminho entre escolha do veículo, avaliação do agente e execução do contrato. Cada etapa tem dono, status e próxima ação clara.
+      </p>
+    </div>
+
+    <div class="rently-flow">
+      <div class="rently-flow-step">
+        <div class="rently-flow-index">01</div>
+        <div class="rently-flow-copy">
+          <h3 class="rently-display text-2xl font-black leading-none">Cliente escolhe o automóvel</h3>
+          <p class="mt-2 text-sm font-bold text-gray-600">A frota disponível vira ponto de partida para uma solicitação de aluguel.</p>
+        </div>
+      </div>
+      <div class="rently-flow-step">
+        <div class="rently-flow-index" style="background:#e3f4ff;">02</div>
+        <div class="rently-flow-copy">
+          <h3 class="rently-display text-2xl font-black leading-none">Agente analisa o pedido</h3>
+          <p class="mt-2 text-sm font-bold text-gray-600">A locadora avalia dados, ajusta informações e registra parecer positivo ou negativo.</p>
+        </div>
+      </div>
+      <div class="rently-flow-step">
+        <div class="rently-flow-index" style="background:#fff7d6;">03</div>
+        <div class="rently-flow-copy">
+          <h3 class="rently-display text-2xl font-black leading-none">Contrato ganha propriedade</h3>
+          <p class="mt-2 text-sm font-bold text-gray-600">O contrato define se o veículo fica associado ao cliente, à empresa ou ao banco.</p>
+        </div>
+      </div>
+      <div class="rently-flow-step">
+        <div class="rently-flow-index" style="background:#fff2f0;">04</div>
+        <div class="rently-flow-copy">
+          <h3 class="rently-display text-2xl font-black leading-none">Crédito entra quando precisa</h3>
+          <p class="mt-2 text-sm font-bold text-gray-600">Pedidos aprovados podem receber contrato de crédito com banco associado.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rently-landing-section">
+  <div class="rently-section-head">
+    <div>
+      <span class="rently-eyebrow">Papéis do sistema</span>
+      <h2 class="rently-section-title mt-3">Cada ator vê o que precisa decidir.</h2>
+    </div>
+    <p class="hidden sm:block rently-copy max-w-xl">
+      A interface separa intenção de aluguel, análise operacional e vínculo financeiro sem misturar responsabilidades.
+    </p>
+  </div>
+
+  <div class="rently-feature-grid">
+    <article class="rently-feature-card">
+      <strong>Cliente</strong>
+      <h3 class="rently-display mt-4 text-4xl font-black leading-none">Pedido sob controle.</h3>
+      <p class="mt-4 text-sm font-bold text-gray-600">Cria solicitações, acompanha status, corrige pedidos ainda não analisados e cancela antes do contrato.</p>
+    </article>
+    <article class="rently-feature-card" style="background:#f1f7ed;">
+      <strong>Agente da locadora</strong>
+      <h3 class="rently-display mt-4 text-4xl font-black leading-none">Fila pronta para parecer.</h3>
+      <p class="mt-4 text-sm font-bold text-gray-600">Visualiza pedidos submetidos, seleciona análises, edita dados e registra a decisão.</p>
+    </article>
+    <article class="rently-feature-card" style="background:#fff7d6;">
+      <strong>Banco</strong>
+      <h3 class="rently-display mt-4 text-4xl font-black leading-none">Crédito conectado.</h3>
+      <p class="mt-4 text-sm font-bold text-gray-600">Associa financiamento a pedidos aprovados e mantém o contrato de crédito ligado à locação.</p>
+    </article>
+  </div>
+</section>
+
+<section class="rently-landing-section">
+  <div class="rently-section-head">
+    <div>
+      <span class="rently-eyebrow">Estados do pedido</span>
+      <h2 class="rently-section-title mt-3">Status legível para ninguém adivinhar.</h2>
+    </div>
+  </div>
+
+  <div class="rently-status-board">
+    <div class="rently-status-column">
+      <div class="rently-status-dot" style="background:#fff7d6;"></div>
+      <h3 class="rently-display mt-5 text-3xl font-black leading-none">Pendente</h3>
+      <p class="mt-3 text-sm font-bold text-gray-600">Pedido enviado e ainda sem análise.</p>
+    </div>
+    <div class="rently-status-column">
+      <div class="rently-status-dot" style="background:#e3f4ff;"></div>
+      <h3 class="rently-display mt-5 text-3xl font-black leading-none">Em análise</h3>
+      <p class="mt-3 text-sm font-bold text-gray-600">Agente revisando dados e parecer.</p>
+    </div>
+    <div class="rently-status-column">
+      <div class="rently-status-dot" style="background:#b6ff2e;"></div>
+      <h3 class="rently-display mt-5 text-3xl font-black leading-none">Aprovado</h3>
+      <p class="mt-3 text-sm font-bold text-gray-600">Pronto para execução contratual.</p>
+    </div>
+    <div class="rently-status-column">
+      <div class="rently-status-dot" style="background:#fff2f0;"></div>
+      <h3 class="rently-display mt-5 text-3xl font-black leading-none">Recusado</h3>
+      <p class="mt-3 text-sm font-bold text-gray-600">Parecer negativo registrado.</p>
+    </div>
+    <div class="rently-status-column">
+      <div class="rently-status-dot" style="background:#eef4ec;"></div>
+      <h3 class="rently-display mt-5 text-3xl font-black leading-none">Cancelado</h3>
+      <p class="mt-3 text-sm font-bold text-gray-600">Solicitação encerrada antes do contrato.</p>
+    </div>
+  </div>
 </section>
 
 <%# Vehicle grid %>
-<section class="w-full pb-16">
-  <h2 class="text-2xl font-bold text-gray-800 mb-6">Veículos disponíveis</h2>
+<section id="frota" class="w-full pb-16">
+  <div class="rently-section-head">
+    <div>
+      <span class="rently-eyebrow">Disponíveis agora</span>
+      <h2 class="rently-section-title mt-3">Frota pronta para pedido</h2>
+    </div>
+    <p class="hidden sm:block text-sm font-bold text-gray-600">
+      <%= pluralize(@automoveis.count, "veículo disponível", "veículos disponíveis") %>
+    </p>
+  </div>
 
   <% if @automoveis.any? %>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div class="rently-grid">
       <% @automoveis.each do |automovel| %>
         <%= render "vehicle_card", automovel: automovel %>
       <% end %>
     </div>
   <% else %>
-    <div class="text-center py-24 text-gray-400">
-      <p class="text-xl font-medium">Nenhum veículo disponível no momento.</p>
-      <p class="mt-2 text-sm">Volte em breve!</p>
+    <div class="rently-empty">
+      <p class="rently-display text-3xl font-black">Nenhum veículo disponível no momento.</p>
+      <p class="mt-2 text-sm font-bold text-gray-500">A frota volta para a vitrine assim que houver disponibilidade.</p>
     </div>
   <% end %>
+</section>
+
+<section class="rently-landing-section">
+  <div class="rently-split">
+    <div class="rently-contract-panel">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <p class="text-xs font-black uppercase text-gray-500">Contrato de aluguel</p>
+          <h2 class="rently-display mt-4 text-5xl font-black leading-none">Cliente, empresa ou banco.</h2>
+        </div>
+        <span class="rently-contract-stamp">Parecer aprovado</span>
+      </div>
+      <ul class="rently-mini-list mt-8">
+        <li>Período de locação com início e fim</li>
+        <li>Valor total registrado no contrato</li>
+        <li>Tipo de propriedade definido na execução</li>
+        <li>Crédito associado quando o banco financia</li>
+      </ul>
+    </div>
+
+    <div>
+      <span class="rently-eyebrow">Depois da aprovação</span>
+      <h2 class="rently-section-title mt-3">A decisão vira vínculo operacional.</h2>
+      <p class="rently-copy mt-5">
+        O pedido aprovado gera contrato de aluguel e mantém o histórico conectado ao automóvel. Quando há financiamento, o contrato de crédito entra como parte do mesmo fluxo.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-4">
+        <%= link_to "Ver frota", root_path(anchor: "frota"), class: "rently-button" %>
+        <%= link_to "Entrar no sistema", new_session_path, class: "rently-button-secondary" %>
+      </div>
+    </div>
+  </div>
 </section>

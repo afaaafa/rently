@@ -1,54 +1,61 @@
 <% content_for :title, "Frota — Rently" %>
 
-<div class="w-full max-w-6xl mx-auto">
-  <div class="flex items-center justify-between mb-6">
+<div>
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-6">
     <div>
-      <h1 class="text-2xl font-bold text-gray-900">Frota de veículos</h1>
-      <p class="text-sm text-gray-500 mt-0.5"><%= pluralize(@automoveis.count, "veículo") %> cadastrado(s)</p>
+      <span class="rently-eyebrow">Inventário operacional</span>
+      <h1 class="rently-section-title mt-3">Frota de veículos</h1>
+      <p class="text-sm font-bold text-gray-600 mt-2"><%= pluralize(@automoveis.count, "veículo cadastrado", "veículos cadastrados") %></p>
     </div>
-    <%= link_to "＋ Novo veículo", new_automovel_path,
-          class: "rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold px-5 py-2.5 text-sm transition-colors" %>
+    <% if fleet_manager? %>
+      <%= link_to "Novo veículo", new_automovel_path, class: "rently-button" %>
+    <% end %>
   </div>
 
   <% if @automoveis.any? %>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="rently-grid">
       <% @automoveis.each do |automovel| %>
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-col">
+        <div class="rently-vehicle-card flex flex-col">
           <%# Image %>
-          <% if automovel.image.attached? %>
-            <%= image_tag automovel.image, class: "h-44 w-full object-cover" %>
-          <% else %>
-            <div class="h-44 bg-linear-to-br from-slate-100 to-slate-200 flex items-center justify-center">
-              <%= icon "car", variant: "regular", class: "size-16 text-slate-300" %>
-            </div>
-          <% end %>
+          <div class="rently-vehicle-media">
+            <% if automovel.image.attached? %>
+              <%= image_tag automovel.image %>
+            <% else %>
+              <div class="h-full flex items-center justify-center">
+                <%= icon "car-profile", variant: "regular", class: "size-16 text-gray-500" %>
+              </div>
+            <% end %>
+          </div>
 
           <div class="p-4 flex flex-col flex-1">
             <div class="flex-1">
-              <p class="text-xs font-semibold uppercase tracking-wide text-blue-600"><%= automovel.brand %></p>
-              <h3 class="text-lg font-bold text-gray-900 mt-0.5"><%= automovel.model %> <span class="text-gray-400 font-normal text-base"><%= automovel.year %></span></h3>
-              <div class="mt-2 flex gap-3 text-xs text-gray-500">
-                <span>Placa: <strong class="text-gray-700"><%= automovel.plate %></strong></span>
-                <span>Mat.: <strong class="text-gray-700"><%= automovel.matricula %></strong></span>
+              <p class="text-xs font-black uppercase text-gray-500"><%= automovel.brand %></p>
+              <h3 class="rently-display text-2xl font-black mt-0.5"><%= automovel.model %> <span class="text-gray-500 font-bold text-base"><%= automovel.year %></span></h3>
+              <div class="rently-meta mt-3">
+                <span>Placa <strong class="text-gray-900"><%= automovel.plate %></strong></span>
+                <span>Mat. <strong class="text-gray-900"><%= automovel.matricula %></strong></span>
+                <span>Diária <strong class="text-gray-900"><%= number_to_currency(automovel.daily_rate, unit: "R$ ", separator: ",", delimiter: ".") %></strong></span>
               </div>
             </div>
 
-            <div class="mt-4 flex items-center gap-1 pt-3 border-t border-gray-100">
+            <div class="mt-4 flex items-center gap-2 pt-3 border-t border-gray-200">
               <%= link_to automovel_path(automovel),
                     title: "Ver",
-                    class: "p-2 rounded-lg text-blue-600 hover:bg-blue-50 transition-colors" do %>
+                    class: "rently-button-ghost" do %>
                 <%= icon "eye", variant: "regular", class: "size-5" %>
               <% end %>
-              <%= link_to edit_automovel_path(automovel),
-                    title: "Editar",
-                    class: "p-2 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors" do %>
-                <%= icon "pencil-simple", variant: "regular", class: "size-5" %>
-              <% end %>
-              <%= button_to automovel_path(automovel), method: :delete,
-                    title: "Remover",
-                    form: { data: { turbo_confirm: "Tem certeza que deseja remover #{automovel.brand} #{automovel.model}?" } },
-                    class: "p-2 rounded-lg text-red-500 hover:bg-red-50 transition-colors cursor-pointer" do %>
-                <%= icon "trash", variant: "regular", class: "size-5" %>
+              <% if fleet_manager? %>
+                <%= link_to edit_automovel_path(automovel),
+                      title: "Editar",
+                      class: "rently-button-ghost" do %>
+                  <%= icon "pencil-simple", variant: "regular", class: "size-5" %>
+                <% end %>
+                <%= button_to automovel_path(automovel), method: :delete,
+                      title: "Remover",
+                      form: { data: { turbo_confirm: "Tem certeza que deseja remover #{automovel.brand} #{automovel.model}?" } },
+                      class: "rently-button-danger cursor-pointer" do %>
+                  <%= icon "trash", variant: "regular", class: "size-5" %>
+                <% end %>
               <% end %>
             </div>
           </div>
@@ -56,9 +63,11 @@
       <% end %>
     </div>
   <% else %>
-    <div class="text-center py-24 text-gray-400 bg-white rounded-2xl border border-gray-200">
-      <p class="text-lg font-medium">Nenhum veículo cadastrado.</p>
-      <%= link_to "Cadastrar o primeiro", new_automovel_path, class: "mt-2 inline-block text-sm text-blue-600 hover:underline" %>
+    <div class="rently-empty">
+      <p class="rently-display text-3xl font-black">Nenhum veículo cadastrado.</p>
+      <% if fleet_manager? %>
+        <%= link_to "Cadastrar o primeiro", new_automovel_path, class: "rently-button mt-4" %>
+      <% end %>
     </div>
   <% end %>
 </div>

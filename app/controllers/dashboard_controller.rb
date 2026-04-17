@@ -7,7 +7,7 @@ class DashboardController < ApplicationController
     @vehicles_count   = Automovel.count
     @available_count  = Automovel.available.count
 
-    @recent_pedidos = Pedido.includes(:client)
+    @recent_pedidos = Pedido.includes(:client, :automovel)
                             .where(status: [ :pending, :under_review ])
                             .order(created_at: :desc)
                             .limit(10)

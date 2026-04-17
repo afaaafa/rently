@@ -1,5 +1,6 @@
 class Pedido < ApplicationRecord
   belongs_to :client, class_name: "Cliente"
+  belongs_to :automovel
   belongs_to :agent, class_name: "Agente", optional: true
   has_one :contrato_aluguel, dependent: :destroy
 

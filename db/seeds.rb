@@ -81,28 +81,36 @@ gol = Automovel.find_or_create_by!(plate: "ABC-1234") do |a|
   a.year      = 2021
   a.brand     = "Volkswagen"
   a.model     = "Gol"
+  a.daily_rate = 120.00
 end
+gol.update!(daily_rate: 120.00)
 
 civic = Automovel.find_or_create_by!(plate: "DEF-5678") do |a|
   a.matricula = "MAT-002"
   a.year      = 2022
   a.brand     = "Honda"
   a.model     = "Civic"
+  a.daily_rate = 220.00
 end
+civic.update!(daily_rate: 220.00)
 
 hilux = Automovel.find_or_create_by!(plate: "GHI-9012") do |a|
   a.matricula = "MAT-003"
   a.year      = 2023
   a.brand     = "Toyota"
   a.model     = "Hilux"
+  a.daily_rate = 400.00
 end
+hilux.update!(daily_rate: 400.00)
 
 onix = Automovel.find_or_create_by!(plate: "JKL-3456") do |a|
   a.matricula = "MAT-004"
   a.year      = 2020
   a.brand     = "Chevrolet"
   a.model     = "Onix"
+  a.daily_rate = 140.00
 end
+onix.update!(daily_rate: 140.00)
 
 # ---------------------------------------------------------------------------
 # Pedidos & Contratos
@@ -111,19 +119,25 @@ end
 # 1. Pending — Ana waiting for review
 pedido_pending = Pedido.find_or_create_by!(client: ana, request_date: Date.today) do |p|
   p.status = :pending
+  p.automovel = civic
 end
+pedido_pending.update!(automovel: civic) unless pedido_pending.automovel
 
 # 2. Under review — Bruno being evaluated by the empresa agent
 pedido_review = Pedido.find_or_create_by!(client: bruno, request_date: 3.days.ago.to_date) do |p|
   p.status = :under_review
   p.agent  = empresa
+  p.automovel = onix
 end
+pedido_review.update!(automovel: onix) unless pedido_review.automovel
 
 # 3. Approved with contract (client ownership) — Ana, older pedido
 pedido_approved = Pedido.find_or_create_by!(client: ana, request_date: 10.days.ago.to_date) do |p|
   p.status = :approved
   p.agent  = empresa
+  p.automovel = gol
 end
+pedido_approved.update!(automovel: gol) unless pedido_approved.automovel
 
 ContratoAluguel.find_or_create_by!(pedido: pedido_approved) do |c|
   c.automovel     = gol
@@ -137,7 +151,9 @@ end
 pedido_bank = Pedido.find_or_create_by!(client: carla, request_date: 15.days.ago.to_date) do |p|
   p.status = :approved
   p.agent  = empresa
+  p.automovel = hilux
 end
+pedido_bank.update!(automovel: hilux) unless pedido_bank.automovel
 
 contrato_bank = ContratoAluguel.find_or_create_by!(pedido: pedido_bank) do |c|
   c.automovel     = hilux
@@ -158,11 +174,20 @@ end
 pedido_rejected = Pedido.find_or_create_by!(client: bruno, request_date: 20.days.ago.to_date) do |p|
   p.status = :rejected
   p.agent  = empresa
+  p.automovel = civic
 end
+pedido_rejected.update!(automovel: civic) unless pedido_rejected.automovel
 
 # 6. Cancelled — Carla cancelled before review
 pedido_cancelled = Pedido.find_or_create_by!(client: carla, request_date: 2.days.ago.to_date) do |p|
   p.status = :cancelled
+  p.automovel = onix
+end
+pedido_cancelled.update!(automovel: onix) unless pedido_cancelled.automovel
+
+Pedido.where(automovel_id: nil).find_each do |pedido|
+  fallback_automovel = pedido.contrato_aluguel&.automovel || Automovel.first
+  pedido.update!(automovel: fallback_automovel) if fallback_automovel
 end
 
 puts "Done! Seeded:"

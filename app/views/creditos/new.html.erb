@@ -1,0 +1,68 @@
+<% content_for :title, "Associar crédito — Rently" %>
+
+<div class="max-w-6xl mx-auto">
+  <%= link_to "Voltar para crédito", creditos_path, class: "rently-button-ghost" %>
+
+  <div class="mt-6 grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
+    <div class="lg:col-span-2 rently-panel rently-panel-pad">
+      <span class="rently-eyebrow">Contrato aprovado</span>
+      <h1 class="rently-section-title mt-3">Pedido de crédito</h1>
+
+      <dl class="mt-6 space-y-3">
+        <div class="rently-spec p-4">
+          <dt class="text-xs font-black text-gray-500 uppercase">Cliente</dt>
+          <dd class="text-sm font-black text-gray-900 mt-1"><%= @contrato_aluguel.pedido.client.name %></dd>
+        </div>
+        <div class="rently-spec p-4">
+          <dt class="text-xs font-black text-gray-500 uppercase">Veículo</dt>
+          <dd class="text-sm font-black text-gray-900 mt-1"><%= @contrato_aluguel.automovel.brand %> <%= @contrato_aluguel.automovel.model %></dd>
+        </div>
+        <div class="rently-spec p-4">
+          <dt class="text-xs font-black text-gray-500 uppercase">Valor do contrato</dt>
+          <dd class="rently-display text-3xl font-black mt-1"><%= number_to_currency(@contrato_aluguel.total_value, unit: "R$ ", separator: ",", delimiter: ".") %></dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="lg:col-span-3 rently-panel rently-panel-pad">
+      <%= form_with model: @contrato_credito, url: creditos_path, class: "space-y-6" do |f| %>
+        <% if @contrato_credito.errors.any? %>
+          <div class="bg-red-50 border-2 border-red-200 rounded-lg p-4">
+            <p class="text-sm font-black text-red-700 mb-1">
+              <%= pluralize(@contrato_credito.errors.count, "erro") %> impediram a associação:
+            </p>
+            <ul class="list-disc list-inside text-sm font-bold text-red-600 space-y-0.5">
+              <% @contrato_credito.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <%= f.hidden_field :contrato_aluguel_id %>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div>
+            <%= f.label :credit_value, "Valor financiado", class: "rently-label" %>
+            <%= f.number_field :credit_value, step: "0.01", min: "0.01", class: "rently-input" %>
+          </div>
+
+          <div>
+            <%= f.label :interest_rate, "Taxa de juros mensal", class: "rently-label" %>
+            <%= f.number_field :interest_rate, step: "0.0001", min: "0.0001", placeholder: "ex: 0.0199", class: "rently-input" %>
+          </div>
+
+          <div>
+            <%= f.label :installments, "Parcelas", class: "rently-label" %>
+            <%= f.number_field :installments, min: 1, step: 1, placeholder: "ex: 24", class: "rently-input" %>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4 pt-2">
+          <%= f.submit "Associar contrato de crédito", class: "rently-button cursor-pointer" %>
+          <%= link_to "Cancelar", creditos_path, class: "rently-button-ghost" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

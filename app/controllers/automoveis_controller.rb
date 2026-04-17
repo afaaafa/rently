@@ -3,6 +3,7 @@ class AutomoveisController < ApplicationController
   skip_before_action :require_agent!, only: [ :show ]
   allow_unauthenticated_access only: [ :show ]
   before_action :set_automovel, only: [ :show, :edit, :update, :destroy ]
+  before_action :require_fleet_manager!, except: [ :index, :show ]
 
   def index
     @automoveis = Automovel.all.order(:brand, :model).with_attached_image
@@ -50,6 +51,6 @@ class AutomoveisController < ApplicationController
   end
 
   def automovel_params
-    params.expect(automovel: [ :matricula, :year, :brand, :model, :plate, :image ])
+    params.expect(automovel: [ :matricula, :year, :brand, :model, :plate, :daily_rate, :image ])
   end
 end
