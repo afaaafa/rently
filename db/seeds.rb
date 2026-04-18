@@ -112,6 +112,69 @@ onix = Automovel.find_or_create_by!(plate: "JKL-3456") do |a|
 end
 onix.update!(daily_rate: 140.00)
 
+argo = Automovel.find_or_create_by!(plate: "MNO-7890") do |a|
+  a.matricula = "MAT-005"
+  a.year      = 2022
+  a.brand     = "Fiat"
+  a.model     = "Argo"
+  a.daily_rate = 150.00
+end
+argo.update!(daily_rate: 150.00)
+
+hb20 = Automovel.find_or_create_by!(plate: "PQR-2345") do |a|
+  a.matricula = "MAT-006"
+  a.year      = 2021
+  a.brand     = "Hyundai"
+  a.model     = "HB20"
+  a.daily_rate = 145.00
+end
+hb20.update!(daily_rate: 145.00)
+
+renegade = Automovel.find_or_create_by!(plate: "STU-6789") do |a|
+  a.matricula = "MAT-007"
+  a.year      = 2023
+  a.brand     = "Jeep"
+  a.model     = "Renegade"
+  a.daily_rate = 260.00
+end
+renegade.update!(daily_rate: 260.00)
+
+kicks = Automovel.find_or_create_by!(plate: "VWX-0123") do |a|
+  a.matricula = "MAT-008"
+  a.year      = 2022
+  a.brand     = "Nissan"
+  a.model     = "Kicks"
+  a.daily_rate = 240.00
+end
+kicks.update!(daily_rate: 240.00)
+
+kwid = Automovel.find_or_create_by!(plate: "YZA-4567") do |a|
+  a.matricula = "MAT-009"
+  a.year      = 2021
+  a.brand     = "Renault"
+  a.model     = "Kwid"
+  a.daily_rate = 115.00
+end
+kwid.update!(daily_rate: 115.00)
+
+corolla = Automovel.find_or_create_by!(plate: "BCD-8901") do |a|
+  a.matricula = "MAT-010"
+  a.year      = 2023
+  a.brand     = "Toyota"
+  a.model     = "Corolla"
+  a.daily_rate = 280.00
+end
+corolla.update!(daily_rate: 280.00)
+
+t_cross = Automovel.find_or_create_by!(plate: "EFG-2346") do |a|
+  a.matricula = "MAT-011"
+  a.year      = 2024
+  a.brand     = "Volkswagen"
+  a.model     = "T-Cross"
+  a.daily_rate = 310.00
+end
+t_cross.update!(daily_rate: 310.00)
+
 # ---------------------------------------------------------------------------
 # Pedidos & Contratos
 # ---------------------------------------------------------------------------

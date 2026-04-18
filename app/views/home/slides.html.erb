@@ -1,0 +1,108 @@
+<% content_for :title, "Rently — Slides" %>
+
+<section class="rently-deck" aria-label="Apresentação técnica da Rently">
+  <nav class="rently-deck-nav" aria-label="Navegação dos slides">
+    <a href="#slide-1">01</a>
+    <a href="#slide-2">02</a>
+    <a href="#slide-3">03</a>
+    <a href="#slide-4">04</a>
+    <a href="#slide-5">05</a>
+    <a href="#slide-6">06</a>
+  </nav>
+
+  <article id="slide-1" class="rently-deck-slide rently-deck-cover">
+    <div class="rently-slide-kicker">Rently / arquitetura</div>
+    <div class="rently-slide-grid">
+      <div>
+        <p class="rently-slide-number">01</p>
+        <h1 class="rently-display rently-deck-title">Um sistema de locação precisa guardar decisões.</h1>
+      </div>
+      <p class="rently-deck-copy">
+        A arquitetura foi escolhida para manter pedido, análise, contrato, crédito e frota no mesmo fluxo operacional, com regras transacionais executadas no servidor e uma interface que reflete o estado real do domínio.
+      </p>
+    </div>
+  </article>
+
+  <article id="slide-2" class="rently-deck-slide">
+    <div class="rently-slide-kicker">Camadas principais</div>
+    <div class="rently-slide-grid">
+      <div>
+        <p class="rently-slide-number">02</p>
+        <h2 class="rently-display rently-deck-title">Monólito Rails com domínio centralizado.</h2>
+      </div>
+      <div class="rently-layer-diagram" aria-label="Diagrama de camadas">
+        <span>ERB Views<br>HTML inicial renderizado no servidor</span>
+        <span>Controllers<br>orquestração de fluxo e autorização</span>
+        <span>Models<br>validações, associações e estados</span>
+        <span>PostgreSQL<br>persistência relacional e consistência</span>
+      </div>
+    </div>
+  </article>
+
+  <article id="slide-3" class="rently-deck-slide rently-deck-slide-light">
+    <div class="rently-slide-kicker">Por que Rails</div>
+    <div class="rently-slide-grid">
+      <div>
+        <p class="rently-slide-number">03</p>
+        <h2 class="rently-display rently-deck-title">Menos cola, mais regra de negócio.</h2>
+      </div>
+      <ul class="rently-deck-points">
+        <li>Active Record modela cliente, pedido, automóvel e contrato perto das validações.</li>
+        <li>Rotas, controllers e views seguem convenções previsíveis para CRUDs administrativos.</li>
+        <li>Transações e permissões ficam mais simples enquanto o domínio ainda evolui junto.</li>
+        <li>O mesmo request pode validar disponibilidade, atualizar status e preservar histórico sem depender de chamadas entre serviços.</li>
+      </ul>
+    </div>
+  </article>
+
+  <article id="slide-4" class="rently-deck-slide">
+    <div class="rently-slide-kicker">Frontend</div>
+    <div class="rently-slide-grid">
+      <div>
+        <p class="rently-slide-number">04</p>
+        <h2 class="rently-display rently-deck-title">HTML server-side com comportamento pontual.</h2>
+      </div>
+      <div>
+        <p class="rently-deck-copy">
+          ERB entrega a estrutura inicial. Tailwind define o sistema visual. Turbo mantém navegação e formulários fluidos. Stimulus entra onde a tela precisa reagir, como preview de imagem, feedback de flash e seleção de veículo.
+        </p>
+        <div class="rently-deck-tech">
+          <span>ERB</span>
+          <span>Tailwind</span>
+          <span>Turbo</span>
+          <span>Stimulus</span>
+          <span>Importmap</span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article id="slide-5" class="rently-deck-slide rently-deck-finale">
+    <div class="rently-slide-kicker">Decisão técnica</div>
+    <div class="rently-slide-grid">
+      <div>
+        <p class="rently-slide-number">05</p>
+        <h2 class="rently-display rently-deck-title">A escolha acompanha o tamanho do problema.</h2>
+      </div>
+      <p class="rently-deck-copy">
+        Rently precisa registrar estados, proteger ações por papel e manter histórico contratual confiável. Rails entrega esse núcleo com menos partes móveis, enquanto Hotwire cobre interação suficiente sem transformar cada tela em uma aplicação separada.
+      </p>
+    </div>
+  </article>
+
+  <article id="slide-6" class="rently-deck-slide">
+    <div class="rently-slide-kicker">Infraestrutura Rails</div>
+    <div class="rently-slide-grid">
+      <div>
+        <p class="rently-slide-number">06</p>
+        <h2 class="rently-display rently-deck-title">Baterias inclusas reduzem superfície operacional.</h2>
+      </div>
+      <ul class="rently-deck-points">
+        <li>Active Storage mantém imagens da frota integradas ao modelo do automóvel, sem serviço de mídia separado no domínio.</li>
+        <li>Solid Queue, Solid Cache e Solid Cable seguem a estratégia Rails 8: menos dependências externas para jobs, cache e tempo real.</li>
+        <li>Importmap evita um pipeline JavaScript pesado enquanto a aplicação não precisa de bundling complexo.</li>
+        <li>Testes Rails cobrem controllers e modelos no mesmo ambiente da aplicação, com feedback rápido para regressões de fluxo.</li>
+      </ul>
+    </div>
+  </article>
+</section>
